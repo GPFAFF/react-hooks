@@ -6,7 +6,11 @@ import React, { useEffect, useState } from 'react'
 function Greeting({ initialName = '' }) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') || initialName
-  const [name, setName] = useState(() => window.localStorage.getItem('name') || initialName);
+  function someExpensiveComputation(initialName) {
+    return window.localStorage.getItem('name' || initialName)
+  }
+
+  const [name, setName] = useState(someExpensiveComputation);
 
   // 🐨 Here's where you'll use `React.useEffect`.
   // The callback should set the `name` in localStorage.
@@ -27,7 +31,7 @@ function Greeting({ initialName = '' }) {
           Name:
         </label>
         <input
-          value={name}
+          value={name || initialName}
           onChange={handleChange}
           id="name"
         />
@@ -41,8 +45,19 @@ function Greeting({ initialName = '' }) {
 }
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
-    <Greeting />
+    <>
+      <button
+        onClick={() => setCount(prevCount => prevCount + 1)}
+      >
+        {count}
+        {' '}
+        Click Me
+      </button>
+      <Greeting initialName="Gerg" />
+    </>
   )
 }
 

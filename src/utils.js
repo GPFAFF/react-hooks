@@ -10,7 +10,7 @@ import * as React from 'react'
 function useLocalStorageState(
   key,
   defaultValue = '',
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
+  { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 ) {
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
@@ -34,4 +34,4 @@ function useLocalStorageState(
   return [state, setState]
 }
 
-export {useLocalStorageState}
+export { useLocalStorageState }

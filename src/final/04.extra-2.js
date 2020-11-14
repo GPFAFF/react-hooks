@@ -3,7 +3,7 @@
 // http://localhost:3000/isolated/final/04.extra-2.js
 
 import * as React from 'react'
-import {useLocalStorageState} from '../utils'
+import { useLocalStorageState } from '../utils'
 
 function Board() {
   const [squares, setSquares] = useLocalStorageState(
@@ -75,8 +75,8 @@ function calculateStatus(winner, squares, nextValue) {
   return winner
     ? `Winner: ${winner}`
     : squares.every(Boolean)
-    ? `Scratch: Cat's game`
-    : `Next player: ${nextValue}`
+      ? `Scratch: Cat's game`
+      : `Next player: ${nextValue}`
 }
 
 function calculateNextValue(squares) {

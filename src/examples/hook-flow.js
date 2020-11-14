@@ -7,10 +7,7 @@ import * as React from 'react'
 function Child() {
   console.log('%c    Child: render start', 'color: MediumSpringGreen')
 
-  const [count, setCount] = React.useState(() => {
-    console.log('%c    Child: useState(() => 0)', 'color: tomato')
-    return 0
-  })
+  const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
     console.log('%c    Child: useEffect(() => {})', 'color: LightCoral')
@@ -59,17 +56,14 @@ function Child() {
 function App() {
   console.log('%cApp: render start', 'color: MediumSpringGreen')
 
-  const [showChild, setShowChild] = React.useState(() => {
-    console.log('%cApp: useState(() => false)', 'color: tomato')
-    return false
-  })
+  const [showChild, setShowChild] = React.useState(false)
 
   React.useEffect(() => {
     console.log('%cApp: useEffect(() => {})', 'color: LightCoral')
     return () => {
       console.log('%cApp: useEffect(() => {}) cleanup 🧹', 'color: LightCoral')
     }
-  })
+  }, [])
 
   React.useEffect(() => {
     console.log('%cApp: useEffect(() => {}, [])', 'color: MediumTurquoise')

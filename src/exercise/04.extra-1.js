@@ -1,10 +1,25 @@
 // useState: tic tac toe
 // http://localhost:3000/isolated/exercise/04.js
 
-import React, { useState } from 'react'
+import * as React from 'react'
 
 function Board() {
+
+  const initialState = Array(9).fill(null);
   // 🐨 squares is the state for this component. Add useState for squares
+  const [squares, setSquares] = React.useState(() => JSON.parse(window.localStorage.getItem('squares')) || initialState);
+
+  const nextPlayer = calculateNextValue(squares);
+  const winner = calculateWinner(squares)
+  const status = calculateStatus(winner, squares, nextPlayer);
+
+  // 🐨 Here's where you'll use `React.useEffect`.
+  // The callback should set the `name` in localStorage.
+  // 💰 window.localStorage.setItem('name', name)
+  React.useEffect(() => {
+    window.localStorage.setItem('squares', JSON.stringify(squares));
+  }, [squares]);
+
   // 🐨 We'll need the following bits of derived state:
   // - nextValue ('X' or 'O')
   // - winner ('X', 'O', or null)
@@ -12,20 +27,9 @@ function Board() {
   // 💰 I've written the calculations for you! So you can use my utilities
   // below to create these variables
 
-  const [squares, setSquares] = useState(Array(9).fill(null))
-  const nextValue = calculateNextValue(squares);
-  const winner = calculateWinner(squares);
-  const status = calculateStatus(winner, squares, nextValue);
-
   // This is the function your square click handler will call. `square` should
   // be an index. So if they click the center square, this will be `4`.
   function selectSquare(square) {
-    if (squares[square] || winner) return;
-
-    const copy = [...squares];
-    copy[square] = nextValue;
-
-    setSquares(copy);
     // 🐨 first, if there's already winner or there's already a value at the
     // given square index (like someone clicked a square that's already been
     // clicked), then return early so we don't make any state changes
@@ -40,11 +44,17 @@ function Board() {
     // 💰 `squaresCopy[square] = nextValue`
     //
     // 🐨 set the squares to your copy
+
+    if (winner || squares[square]) return;
+
+    const copiedArray = [...squares];
+    copiedArray[square] = nextPlayer;
+    setSquares(copiedArray);
   }
 
   function restart() {
     // 🐨 reset the squares
-    setSquares(Array(9).fill(null));
+    setSquares(initialState);
   }
 
   function renderSquare(i) {
